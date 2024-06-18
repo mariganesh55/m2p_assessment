@@ -6,10 +6,18 @@ import 'package:m2p_assessment/model/data/access_token_response.dart';
 import 'package:m2p_assessment/model/data/client_login_response.dart';
 import 'package:m2p_assessment/model/data/form_template_response.dart';
 import 'package:m2p_assessment/model/data/post_form_data_response.dart';
+// import 'package:http/http.dart' as http;
 
 class ApiService {
-  static Future<ClientLoginResponse> getClientLoginResponse() async {
+  static Future<ClientLoginResponse> getClientLoginResponse(
+      {required String mobileNumber}) async {
     try {
+      // since baseurl not provided i mocked the response
+      // final apiResponse = await http.post(
+      //   Uri.parse(HttpUrls.login),
+      //   body: jsonEncode({"mobileNumber": mobileNumber}),
+      //   headers: {'Content-Type': 'application/json'},
+      // );
       String data =
           await rootBundle.loadString('assets/json/client_login_response.json');
       ClientLoginResponse response =
@@ -23,6 +31,13 @@ class ApiService {
   static Future<AccessTokenResponse> getAccessToken(
       {required String otp}) async {
     try {
+      // since baseurl not provided i mocked the response
+
+      // final apiResponse = await http.post(
+      //   Uri.parse(
+      //       HttpUrls.accessToken),
+      //   headers: {'Content-Type': 'application/json'},
+      // );
       String data =
           await rootBundle.loadString('assets/json/access_token_response.json');
       AccessTokenResponse response =
@@ -34,6 +49,12 @@ class ApiService {
   }
 
   static Future<GetFormDataResponse> getFormDataResponse() async {
+    // since baseurl not provided i mocked the response
+
+    // final apiResponse = await http.get(
+    //   Uri.parse(HttpUrls.clientDataSuccess),
+    //   headers: {'Content-Type': 'application/json'},
+    // );
     try {
       String data = await rootBundle
           .loadString('assets/json/get_form_data_response.json');
@@ -46,6 +67,12 @@ class ApiService {
   }
 
   static Future<FormTemplateResponse> getFormTemplateResponse() async {
+    // since baseurl not provided i mocked the response
+
+    // final apiResponse = await http.get(
+    //   Uri.parse(HttpUrls.formTemplate),
+    //   headers: {'Content-Type': 'application/json'},
+    // );
     try {
       String data = await rootBundle
           .loadString('assets/json/form_template_response.json');
@@ -58,6 +85,12 @@ class ApiService {
   }
 
   static Future<PostFormDataResponse> postFromDataResponse() async {
+    // since baseurl not provided i mocked the response
+
+    // final apiResponse = await http.put(
+    //   Uri.parse(HttpUrls.getFormData),
+    //   headers: {'Content-Type': 'application/json'},
+    // );
     try {
       String data = await rootBundle
           .loadString('assets/json/post_form_data_response.json');

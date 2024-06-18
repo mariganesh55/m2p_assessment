@@ -1,17 +1,22 @@
-import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:m2p_assessment/model/data/form_template_response.dart';
 import 'package:m2p_assessment/model/data/post_form_data_response.dart';
 import 'package:m2p_assessment/model/service/api_service.dart';
 
-class EditDynamicFormController extends GetxController {
-  RxBool isLoading = false.obs;
+final editDynamicFormProvider =
+    StateNotifierProvider<EditDynamicFormNotifier, AsyncValue<void>>((ref) {
+  return EditDynamicFormNotifier();
+});
+
+class EditDynamicFormNotifier extends StateNotifier<AsyncValue<void>> {
+  EditDynamicFormNotifier() : super(const AsyncValue.data(null));
+
   FormTemplateResponse? formTemplateResponse;
   Map<String, TextEditingController> textControllersMap = {};
 
-  Future<FormTemplateResponse?> getFormDataTemplate() async {
-    isLoading.value = true;
-    update();
+  Future<void> getFormDataTemplate() async {
+    state = const AsyncValue.loading();
     try {
       formTemplateResponse = await ApiService.getFormTemplateResponse();
       formTemplateResponse?.parameters?.forEach((element) {
@@ -20,22 +25,19 @@ class EditDynamicFormController extends GetxController {
           textControllersMap[element.name!]?.text = element.defaultSelection!;
         }
       });
-      isLoading.value = false;
-      update();
-      return formTemplateResponse;
+      state = const AsyncValue.data(null);
     } catch (e) {
-      isLoading.value = false;
-      update();
-      throw Exception('Failed to load json');
+      state = AsyncValue.error('Login failed', StackTrace.current);
     }
   }
 
-  Future<PostFormDataResponse?> postFormDataRespinse() async {
+  Future<void> postFormDataResponse() async {
+    state = const AsyncValue.loading();
     try {
       PostFormDataResponse response = await ApiService.postFromDataResponse();
-      return response;
+      state = const AsyncValue.data(null);
     } catch (e) {
-      throw Exception('Failed to load json');
+      state = AsyncValue.error('Login failed', StackTrace.current);
     }
   }
 }
